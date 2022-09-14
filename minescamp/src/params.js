@@ -14,7 +14,7 @@ const params = {
     const heigth = Dimensions.get("window").height
     const boardHeigth = heigth * (1 - this.headerRatio)
     return Math.floor(boardHeigth / this.blockSize)
-  }
+  },
 }
 
 export default params
