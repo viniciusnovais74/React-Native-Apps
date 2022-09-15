@@ -13,8 +13,8 @@ export default function Routes() {
     <SafeAreaView style={{ flex: 1 }}>
       <NavigationContainer>
         {/* <Stack /> */}
-        <Drawer/>
-        {/* <Tab /> */}
+        {/* <Drawer/> */}
+        <Tab />
       </NavigationContainer>
     </SafeAreaView>
   )
