@@ -1,22 +1,26 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  TextInput
-} from "react-native";
+import { connect } from "react-redux";
+import { login } from "../store/actions/user";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 
-export default function Login() {
+function Login({ onLogin, navigation }) {
   const [email, setEmail] = React.useState("");
+  const [name, setName] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  function connect() {
-
+  function signIn() {
+    onLogin({ email, password, name });
+    navigation.navigate("Profile");
   }
 
   return (
     <View style={styles.container}>
+      <TextInput
+        value={name}
+        onChangeText={e => setName(e)}
+        style={styles.input}
+        placeholder="Name"
+      />
       <TextInput
         autoFocus={true}
         value={email}
@@ -32,11 +36,17 @@ export default function Login() {
         placeholder="Senha"
         style={styles.input}
       />
-      <TouchableOpacity onPress={() => connect()} style={styles.buttom}>
+      <TouchableOpacity onPress={() => signIn()} style={styles.buttom}>
         <Text style={styles.buttomText}>Login</Text>
       </TouchableOpacity>
     </View >
   )
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onLogin: (user) => dispatch(login(user))
+  }
 }
 
 const styles = StyleSheet.create({
@@ -63,3 +73,5 @@ const styles = StyleSheet.create({
     color: "#FFF"
   }
 })
+
+export default connect(null, mapDispatchToProps)(Login);

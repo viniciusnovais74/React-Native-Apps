@@ -1,16 +1,10 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableWithoutFeedback as TWF,
-  Alert
-} from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableWithoutFeedback as TWF, Alert } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
+
 export default function AddComment() {
   const [comment, setComment] = React.useState('');
-  const [editComment, setEditComment] = React.useState(true);
+  const [editComment, setEditComment] = React.useState(false);
 
   function handleAddComment() {
     Alert.alert('Adicionado!', comment);

@@ -1,20 +1,24 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Platform,
-  Image
-} from "react-native"
+import { Gravatar } from "react-native-gravatar";
+import { connect } from "react-redux";
+import { StyleSheet, Text, View, Image } from "react-native"
 
 import icon from "../../assets/imgs/icon.png"
 
-export default function Header() {
+function Header({ name, email }) {
+
+  name = name || "Anonymous"
+  const gravatar = email ? (<Gravatar options={{ email, secure: true }} style={styles.avatar} />) : null;
+  
   return (
     <View style={styles.container}>
       <View style={styles.rowContainer}>
-        <Image style={styles.image} source={icon}/>
+        <Image style={styles.image} source={icon} />
         <Text style={styles.title}>Instagram</Text>
+      </View>
+      <View style={styles.userContainer}>
+        <Text style={styles.user}>{name}</Text>
+        {gravatar}
       </View>
     </View>
   )
@@ -25,7 +29,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
     padding: 10,
     borderBottomWidth: 1,
-    borderColor: "#BBB"
+    borderColor: "#BBB",
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
   rowContainer: {
     flexDirection: 'row',
@@ -39,7 +45,16 @@ const styles = StyleSheet.create({
   title: {
     color: "#000",
     fontFamily: 'shelter',
-    height:30,
-    fontSize:28
+    height: 30,
+    fontSize: 28
   }
 })
+
+function mapStateToProps({ user }) {
+  return {
+    name: user.name,
+    email: user.email
+  }
+}
+
+export default connect(mapStateToProps, null)(Header)
