@@ -1,35 +1,16 @@
 const express = require('express');
 const app = express();
-const port = 3000;
-const bodyParser = require('body-parser');
-const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
-const cors = require('cors');
-const knex = require('knex');
-const knexfile = require('./knexfile');
-const db = knex(knexfile.test);
+const db = require('./config/db');
+const consign = require('consign');
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+consign()
+  .include('./config/passport.js')
+  .then('./config/middleware.js')
+  .then('./api')
+  .then('./config/routes.js')
+  .into(app)
 
-app.use(bodyParser.json());
-app.use(cors());
-
-app.post('/signin', (req, res) => {
-  const { email, password } = req.body;
-  db('users')
-    .where({
-      email: email,
-      password: password
-    })
-    .first()
-    .then(user => {
-      if (user) {
-        res.json(user);
-      } else {
-        res.status(400).send('Usuário não encontrado');
-      }
-    })
-    .catch(err => res.status(400).send(err));
-});
+app.db = db;
+app.listen(3000, () => {
+  console.log('Servidor rodando na porta 3000');
+})

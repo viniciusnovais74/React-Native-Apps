@@ -1,6 +1,8 @@
 import {Alert, Platform} from "react-native";
-
-const server = Platform.OS === "ios" ? "http://localhost:3000" : "http://localhost:3000";
+import axios from "axios"
+const server = axios.create({
+  baseURL: "http://192.168.15.27:3000"
+})
 
 function showError(err) {
   if (err.response && err.response.data) {

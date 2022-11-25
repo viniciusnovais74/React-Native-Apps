@@ -1,8 +1,8 @@
 import React from "react";
-import { createSwitchNavigator } from "@react-navigation/compat"
 import { NavigationContainer } from "@react-navigation/native";
 import TaskList from "./screens/TaskList";
 import Auth from "./screens/Auth";
+import { createStackNavigator } from "@react-navigation/stack";
 
 
 const mainRoutes = {
@@ -15,12 +15,13 @@ const mainRoutes = {
     component: TaskList
   }
 }
-
-const MainContainer = createSwitchNavigator(mainRoutes, {
-  initialRouteName: "Auth"
-})
-
+const Stack = createStackNavigator();
 export default props => (
-<TaskList/>
+<NavigationContainer>
+  <Stack.Navigator initialRouteName="Auth" screenOptions={{headerShown:false}}>
+    <Stack.Screen name="Auth" component={Auth} />
+    <Stack.Screen name="Home" component={TaskList} />
+  </Stack.Navigator>
+</NavigationContainer>
 )
 

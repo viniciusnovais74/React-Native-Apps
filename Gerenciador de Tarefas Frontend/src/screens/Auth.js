@@ -4,7 +4,7 @@ import background from "../../assets/imgs/login.jpg";
 import commonStyle from "../commonStyle"
 import AuthInput from "../components/AuthInput";
 import { server, showError, showSuccess } from "../common";
-export default function Auth() {
+export default function Auth({ navigation }) {
 
   const [stage, setStage] = React.useState(true);
   const [name, setName] = React.useState("");
@@ -20,10 +20,13 @@ export default function Auth() {
     }
   }
   async function signIn() {
+    console.log("Sign In");
+    console.log(server)
     try {
       const res = await server.post('/signin', { email, password })
       server.defaults.headers.common['Authorization'] = `bearer ${res.data.token}`
       showSuccess('Login realizado com sucesso!')
+      navigation.navigate('Home')
     } catch (error) {
       showError(error)
     }
@@ -31,7 +34,7 @@ export default function Auth() {
 
   async function signUp() {
     try {
-      await axios.post(`${server}/signup`, {
+      await server.post(`/signup`, {
         name,
         email,
         password,
